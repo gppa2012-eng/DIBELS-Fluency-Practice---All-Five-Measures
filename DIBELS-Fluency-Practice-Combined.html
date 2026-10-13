@@ -1,0 +1,2005 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DIBELS Fluency Scoring Practice</title>
+<style>
+  :root { --bg:#f5f5f2; --ink:#222; --line:#d6d6cf; --accent:#2c5d7c; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); background:var(--bg); }
+  nav { display:flex; flex-wrap:wrap; gap:6px; padding:10px 12px; background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:2; }
+  .tab { border:1px solid var(--line); background:#fafafa; border-radius:8px; padding:6px 10px; cursor:pointer; font:inherit; font-weight:700; color:var(--ink); text-align:left; }
+  .tab span { display:block; font-weight:400; font-size:12px; color:#555; }
+  .tab.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .tab.active span { color:#dfe9f0; }
+  .pane { display:none; width:100%; height:calc(100vh - 70px); border:0; background:#fff; }
+  .pane.active { display:block; }
+</style></head>
+<body>
+<nav><button class="tab active" data-idx="0">LNF<span>Letter Naming Fluency</span></button><button class="tab" data-idx="1">NWF<span>Nonsense Word Fluency</span></button><button class="tab" data-idx="2">PSF<span>Phoneme Segmentation Fluency</span></button><button class="tab" data-idx="3">ORF<span>Oral Reading Fluency</span></button><button class="tab" data-idx="4">WRF<span>Word Reading Fluency</span></button></nav>
+<iframe class="pane active" id="pane0" title="Letter Naming Fluency" sandbox="allow-scripts allow-downloads allow-modals allow-popups allow-forms" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Practice Activity 1: Letter Naming Fluency (LNF)&lt;/title&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;style&gt;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: &#x27;Segoe UI&#x27;, Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+            border-bottom: 4px solid #ffc629;
+            padding-bottom: 20px;
+        }
+
+        .unit-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #7f8c8d;
+            font-weight: 300;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ffc629;
+            display: inline-block;
+        }
+
+        .examiner-script {
+            background-color: #fffbf0;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #ffc629;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .script-section {
+            margin-bottom: 16px;
+        }
+
+        .script-label {
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 6px;
+        }
+
+        .script-text {
+            color: #34495e;
+            margin-left: 12px;
+        }
+
+        .scoring-area {
+            margin-bottom: 40px;
+        }
+
+        .letter-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f9fbfc;
+            border-radius: 6px;
+        }
+
+        .letter-button {
+            aspect-ratio: 1;
+            border: 2px solid #e0e6ed;
+            background-color: white;
+            color: #2c3e50;
+            font-size: 20px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .letter-button:hover {
+            border-color: #ffc629;
+            background-color: #fffbf0;
+        }
+
+        .letter-button.error {
+            background-color: #e74c3c;
+            color: white;
+            border-color: #c0392b;
+            text-decoration: line-through;
+        }
+
+        .letter-button.bracketed {
+            background-color: #ffc629;
+            color: #000000;
+            border-color: #000000;
+            font-weight: 700;
+        }
+
+        .timer-display {
+            font-size: 48px;
+            font-weight: 700;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffc629 0%, #ffdc8a 100%);
+            color: #000000;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-family: &#x27;Courier New&#x27;, monospace;
+            letter-spacing: 4px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: #000000;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #333333;
+        }
+
+        .btn-secondary {
+            background-color: #b0b3b2;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #9a9d9c;
+        }
+
+        .stats-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background-color: #fffbf0;
+            padding: 16px;
+            border-radius: 6px;
+            border-left: 4px solid #ffc629;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .note {
+            margin-top: 20px;
+            padding: 16px;
+            background-color: #f0f0f0;
+            border-left: 4px solid #b0b3b2;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #2c3e50;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 768px) {
+            .stats-display {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .letter-grid {
+                gap: 6px;
+            }
+
+            .letter-button {
+                font-size: 16px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;!-- Header --&gt;
+        &lt;div class=&quot;header&quot;&gt;
+            &lt;div class=&quot;unit-label&quot;&gt;Practice Activity 1&lt;/div&gt;
+            &lt;h1&gt;Letter Naming Fluency (LNF)&lt;/h1&gt;
+            &lt;p class=&quot;subtitle&quot;&gt;Score student letter naming responses in real time&lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Examiner Script --&gt;
+        &lt;div class=&quot;examiner-script&quot;&gt;
+            &lt;div class=&quot;script-section&quot;&gt;
+                &lt;div class=&quot;script-label&quot;&gt;Examiner Script&lt;/div&gt;
+                &lt;div class=&quot;script-text&quot;&gt;
+                    &quot;Here are some letters (point to the student form). Tell me the names of as many letters as you can. When I say &#x27;Begin,&#x27; start here (point to the first letter), and go across the page. Point to each letter and tell me the name of that letter. If you come to a letter you don&#x27;t know, I&#x27;ll tell it to you. Put your finger on the first letter. Ready? Begin.&quot;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class=&quot;script-section&quot;&gt;
+                &lt;div class=&quot;script-label&quot;&gt;Reminders&lt;/div&gt;
+                &lt;div class=&quot;script-text&quot;&gt;
+                    &lt;strong&gt;Start timer:&lt;/strong&gt; After you say &quot;Begin&quot;&lt;br&gt;
+                    &lt;strong&gt;Student hesitates:&lt;/strong&gt; Wait 3 seconds; name the letter; point to next letter and say &quot;Keep going&quot;; mark as incorrect&lt;br&gt;
+                    &lt;strong&gt;Student says letter sounds:&lt;/strong&gt; Say &quot;Remember, tell me the letter&#x27;s name, not its sound.&quot; Score as incorrect.&lt;br&gt;
+                    &lt;strong&gt;Discontinue:&lt;/strong&gt; If student does not produce any correct letter names in the first line (10 letters)
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Scoring Section --&gt;
+        &lt;div class=&quot;scoring-area&quot;&gt;
+            &lt;h2 class=&quot;section-title&quot;&gt;Score the Letters&lt;/h2&gt;
+            &lt;p style=&quot;font-size: 14px; color: #7f8c8d; margin-bottom: 16px; margin-top: 16px;&quot;&gt;Click letters to mark errors. Use the bracket button to mark where student stopped when timer ended.&lt;/p&gt;
+
+            &lt;div class=&quot;timer-display&quot; id=&quot;timerDisplay&quot;&gt;0:00&lt;/div&gt;
+
+            &lt;div class=&quot;controls&quot;&gt;
+                &lt;button class=&quot;btn btn-primary&quot; onclick=&quot;startTimer()&quot;&gt;Start Timer (1 min)&lt;/button&gt;
+                &lt;button class=&quot;btn btn-secondary&quot; onclick=&quot;toggleBracketMode()&quot;&gt;Mark Where Student Stopped&lt;/button&gt;
+                &lt;button class=&quot;btn btn-secondary&quot; onclick=&quot;resetScore()&quot;&gt;Reset All&lt;/button&gt;
+                &lt;button class=&quot;btn btn-primary&quot; style=&quot;background-color: #ffc629; color: #000000;&quot; onclick=&quot;saveToPDF()&quot;&gt;Save to PDF&lt;/button&gt;
+            &lt;/div&gt;
+
+            &lt;div id=&quot;bracketMode&quot; style=&quot;display: none; background-color: #fffbf0; padding: 12px; border-radius: 4px; border-left: 4px solid #ffc629; margin-bottom: 16px; font-size: 14px; color: #2c3e50;&quot;&gt;
+                &lt;strong&gt;Bracket Mode Active:&lt;/strong&gt; Click the letter where the student stopped when the timer ended.
+            &lt;/div&gt;
+
+            &lt;div class=&quot;letter-grid&quot; id=&quot;letterGrid&quot;&gt;&lt;/div&gt;
+
+            &lt;div class=&quot;stats-display&quot;&gt;
+                &lt;div class=&quot;stat-box&quot;&gt;
+                    &lt;div class=&quot;stat-label&quot;&gt;Letters Read&lt;/div&gt;
+                    &lt;div class=&quot;stat-value&quot; id=&quot;lettersRead&quot;&gt;—&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;stat-box&quot;&gt;
+                    &lt;div class=&quot;stat-label&quot;&gt;Errors&lt;/div&gt;
+                    &lt;div class=&quot;stat-value&quot; id=&quot;errorCount&quot;&gt;0&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;stat-box&quot;&gt;
+                    &lt;div class=&quot;stat-label&quot;&gt;Correct&lt;/div&gt;
+                    &lt;div class=&quot;stat-value&quot; id=&quot;correctCount&quot;&gt;0&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;stat-box&quot;&gt;
+                    &lt;div class=&quot;stat-label&quot;&gt;LCPM&lt;/div&gt;
+                    &lt;div class=&quot;stat-value&quot; id=&quot;lcpm&quot;&gt;—&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class=&quot;note&quot;&gt;
+                &lt;strong&gt;LCPM Calculation:&lt;/strong&gt; Letters correct per minute = letters read up to bracket (]) − errors. Time is exactly 1 minute.
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        const letters = [&#x27;o&#x27;, &#x27;s&#x27;, &#x27;c&#x27;, &#x27;g&#x27;, &#x27;A&#x27;, &#x27;E&#x27;, &#x27;O&#x27;, &#x27;U&#x27;,
+                        &#x27;n&#x27;, &#x27;k&#x27;, &#x27;R&#x27;, &#x27;j&#x27;, &#x27;a&#x27;, &#x27;u&#x27;, &#x27;I&#x27;, &#x27;H&#x27;, &#x27;m&#x27;, &#x27;C&#x27;, &#x27;B&#x27;, &#x27;i&#x27;,
+                        &#x27;v&#x27;, &#x27;N&#x27;, &#x27;F&#x27;, &#x27;r&#x27;, &#x27;b&#x27;, &#x27;M&#x27;, &#x27;L&#x27;, &#x27;d&#x27;, &#x27;T&#x27;, &#x27;D&#x27;,
+                        &#x27;t&#x27;, &#x27;f&#x27;, &#x27;S&#x27;, &#x27;x&#x27;, &#x27;e&#x27;, &#x27;p&#x27;, &#x27;P&#x27;, &#x27;G&#x27;, &#x27;h&#x27;, &#x27;y&#x27;,
+                        &#x27;E&#x27;, &#x27;F&#x27;, &#x27;h&#x27;, &#x27;g&#x27;, &#x27;B&#x27;, &#x27;i&#x27;, &#x27;m&#x27;, &#x27;C&#x27;, &#x27;O&#x27;, &#x27;e&#x27;,
+                        &#x27;u&#x27;, &#x27;S&#x27;, &#x27;U&#x27;, &#x27;r&#x27;, &#x27;v&#x27;, &#x27;P&#x27;, &#x27;j&#x27;, &#x27;d&#x27;, &#x27;b&#x27;, &#x27;N&#x27;,
+                        &#x27;a&#x27;, &#x27;c&#x27;, &#x27;A&#x27;, &#x27;x&#x27;, &#x27;o&#x27;, &#x27;f&#x27;, &#x27;T&#x27;, &#x27;H&#x27;, &#x27;n&#x27;, &#x27;k&#x27;,
+                        &#x27;M&#x27;, &#x27;L&#x27;, &#x27;s&#x27;, &#x27;y&#x27;, &#x27;R&#x27;, &#x27;G&#x27;, &#x27;t&#x27;, &#x27;p&#x27;, &#x27;I&#x27;, &#x27;D&#x27;,
+                        &#x27;a&#x27;, &#x27;d&#x27;, &#x27;c&#x27;, &#x27;v&#x27;, &#x27;n&#x27;, &#x27;g&#x27;, &#x27;e&#x27;, &#x27;u&#x27;, &#x27;m&#x27;, &#x27;o&#x27;,
+                        &#x27;y&#x27;, &#x27;s&#x27;, &#x27;b&#x27;, &#x27;h&#x27;, &#x27;t&#x27;, &#x27;p&#x27;, &#x27;i&#x27;, &#x27;f&#x27;, &#x27;r&#x27;, &#x27;k&#x27;];
+
+        let errors = new Set();
+        let bracketIndex = null;
+        let timerStarted = false;
+        let bracketModeActive = false;
+        let timerInterval = null;
+        let timerSeconds = 0;
+
+        function initializeGrid() {
+            const grid = document.getElementById(&#x27;letterGrid&#x27;);
+            grid.innerHTML = &#x27;&#x27;;
+            
+            letters.forEach((letter, index) =&gt; {
+                const btn = document.createElement(&#x27;button&#x27;);
+                btn.className = &#x27;letter-button&#x27;;
+                btn.textContent = letter;
+                btn.onclick = () =&gt; {
+                    if (bracketModeActive) {
+                        setBracket(index);
+                        toggleBracketMode();
+                    } else {
+                        toggleError(index);
+                    }
+                };
+                if (errors.has(index)) btn.classList.add(&#x27;error&#x27;);
+                if (bracketIndex === index) btn.classList.add(&#x27;bracketed&#x27;);
+                grid.appendChild(btn);
+            });
+            
+            updateStats();
+        }
+
+        function toggleError(index) {
+            if (errors.has(index)) {
+                errors.delete(index);
+            } else {
+                errors.add(index);
+            }
+            initializeGrid();
+        }
+
+        function toggleBracketMode() {
+            bracketModeActive = !bracketModeActive;
+            document.getElementById(&#x27;bracketMode&#x27;).style.display = bracketModeActive ? &#x27;block&#x27; : &#x27;none&#x27;;
+        }
+
+        function setBracket(index) {
+            bracketIndex = index;
+            initializeGrid();
+        }
+
+        function updateStats() {
+            const lettersRead = bracketIndex !== null ? bracketIndex + 1 : &#x27;—&#x27;;
+            const errorCount = errors.size;
+            const correctCount = bracketIndex !== null ? (bracketIndex + 1 - errorCount) : 0;
+            const lcpm = bracketIndex !== null ? correctCount : &#x27;—&#x27;;
+
+            document.getElementById(&#x27;lettersRead&#x27;).textContent = lettersRead;
+            document.getElementById(&#x27;errorCount&#x27;).textContent = errorCount;
+            document.getElementById(&#x27;correctCount&#x27;).textContent = correctCount;
+            document.getElementById(&#x27;lcpm&#x27;).textContent = lcpm;
+        }
+
+        function startTimer() {
+            timerStarted = !timerStarted;
+            const btn = event.target;
+            
+            if (timerStarted) {
+                btn.textContent = &#x27;Stop Timer&#x27;;
+                btn.style.backgroundColor = &#x27;#e74c3c&#x27;;
+                timerSeconds = 0;
+                
+                timerInterval = setInterval(() =&gt; {
+                    timerSeconds++;
+                    updateTimerDisplay();
+                    
+                    if (timerSeconds &gt;= 60) {
+                        clearInterval(timerInterval);
+                        alert(&#x27;1 minute is up! Click a letter to mark where the student stopped.&#x27;);
+                        timerStarted = false;
+                        btn.textContent = &#x27;Start Timer (1 min)&#x27;;
+                        btn.style.backgroundColor = &#x27;&#x27;;
+                    }
+                }, 1000);
+            } else {
+                clearInterval(timerInterval);
+                btn.textContent = &#x27;Start Timer (1 min)&#x27;;
+                btn.style.backgroundColor = &#x27;&#x27;;
+            }
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            const display = `${mins}:${secs.toString().padStart(2, &#x27;0&#x27;)}`;
+            document.getElementById(&#x27;timerDisplay&#x27;).textContent = display;
+        }
+
+        function resetScore() {
+            errors.clear();
+            bracketIndex = null;
+            timerStarted = false;
+            clearInterval(timerInterval);
+            timerSeconds = 0;
+            document.getElementById(&#x27;timerDisplay&#x27;).textContent = &#x27;0:00&#x27;;
+            initializeGrid();
+        }
+
+        function saveToPDF() {
+            const element = document.querySelector(&#x27;.container&#x27;);
+            const opt = {
+                margin: 10,
+                filename: &#x27;LNF_Practice_Activity.pdf&#x27;,
+                image: { type: &#x27;jpeg&#x27;, quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: &#x27;portrait&#x27;, unit: &#x27;mm&#x27;, format: &#x27;a4&#x27; }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // Initialize on load
+        initializeGrid();
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe><iframe class="pane" id="pane1" title="Nonsense Word Fluency" sandbox="allow-scripts allow-downloads allow-modals allow-popups allow-forms" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Practice Activity 2: Nonsense Word Fluency (NWF)&lt;/title&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;style&gt;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: &#x27;Segoe UI&#x27;, Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+            border-bottom: 4px solid #ffc629;
+            padding-bottom: 20px;
+        }
+
+        .unit-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #7f8c8d;
+            font-weight: 300;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ffc629;
+            display: inline-block;
+        }
+
+        .examiner-script {
+            background-color: #fffbf0;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #ffc629;
+            margin-bottom: 30px;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .script-section {
+            margin-bottom: 16px;
+        }
+
+        .script-label {
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 6px;
+        }
+
+        .script-text {
+            color: #34495e;
+            margin-left: 12px;
+        }
+
+        .scoring-area {
+            margin-bottom: 40px;
+        }
+
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f9fbfc;
+            border-radius: 6px;
+        }
+
+        .word-card {
+            padding: 16px;
+            border: 2px solid #e0e6ed;
+            background-color: white;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .word-card.bracketed {
+            border: 3px solid #000000;
+            background-color: #ffc629;
+        }
+
+        .word-display {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .sounds-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .sound-button {
+            padding: 8px;
+            border: 1px solid #e0e6ed;
+            background-color: white;
+            color: #2c3e50;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .sound-button:hover {
+            border-color: #ffc629;
+            background-color: #fffbf0;
+        }
+
+        .sound-button.correct {
+            background-color: #5db574;
+            color: white;
+            border-color: #4a9d62;
+        }
+
+        .sound-button.incorrect {
+            background-color: #e74c3c;
+            color: white;
+            border-color: #c0392b;
+            text-decoration: line-through;
+        }
+
+        .sound-button.neutral {
+            background-color: white;
+            border-color: #e0e6ed;
+        }
+
+        .word-score {
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: #7f8c8d;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #e0e6ed;
+        }
+
+        .timer-display {
+            font-size: 48px;
+            font-weight: 700;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffc629 0%, #ffdc8a 100%);
+            color: #000000;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-family: &#x27;Courier New&#x27;, monospace;
+            letter-spacing: 4px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: #000000;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #333333;
+        }
+
+        .btn-secondary {
+            background-color: #b0b3b2;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #9a9d9c;
+        }
+
+        .stats-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background-color: #fffbf0;
+            padding: 16px;
+            border-radius: 6px;
+            border-left: 4px solid #ffc629;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .note {
+            margin-top: 20px;
+            padding: 16px;
+            background-color: #f0f0f0;
+            border-left: 4px solid #b0b3b2;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #2c3e50;
+            line-height: 1.7;
+        }
+
+        .help-text {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .word-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+
+            .stats-display {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .word-display {
+                font-size: 20px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;!-- Header --&gt;
+        &lt;div class=&quot;header&quot;&gt;
+            &lt;div class=&quot;unit-label&quot;&gt;Practice Activity 2&lt;/div&gt;
+            &lt;h1&gt;Nonsense Word Fluency (NWF)&lt;/h1&gt;
+            &lt;p class=&quot;subtitle&quot;&gt;Score individual sounds in each nonsense word&lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Examiner Script --&gt;
+        &lt;div class=&quot;examiner-script&quot;&gt;
+            &lt;div class=&quot;script-section&quot;&gt;
+                &lt;div class=&quot;script-label&quot;&gt;Examiner Script (Practice Trial)&lt;/div&gt;
+                &lt;div class=&quot;script-text&quot;&gt;
+                    &quot;Look at this word (point to first word). It&#x27;s a make-believe word. Watch me read the word: /h/ /a/ /p/ &#x27;hap.&#x27; I can say the sounds of the letters, /h/ /a/ /p/, or I can read the whole word &#x27;hap.&#x27; Your turn to read a make-believe word. Read this word the best you can.&quot;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class=&quot;script-section&quot;&gt;
+                &lt;div class=&quot;script-label&quot;&gt;Main Assessment Script&lt;/div&gt;
+                &lt;div class=&quot;script-text&quot;&gt;
+                    &quot;Here are some more make-believe words (point to student form). Start here (point to first word) and go across the page. When I say &#x27;Begin&#x27;, read the words the best you can. Point to each letter and tell me the sound or read the whole word. Put your finger on the first word. Ready? Begin.&quot;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class=&quot;script-section&quot;&gt;
+                &lt;div class=&quot;script-label&quot;&gt;Reminders&lt;/div&gt;
+                &lt;div class=&quot;script-text&quot;&gt;
+                    &lt;strong&gt;Start timer:&lt;/strong&gt; After you say &quot;Begin&quot;&lt;br&gt;
+                    &lt;strong&gt;Student hesitates:&lt;/strong&gt; Wait 3 seconds; point to next word and say &quot;Keep going&quot;; mark sounds as incorrect&lt;br&gt;
+                    &lt;strong&gt;Discontinue:&lt;/strong&gt; If student does not get any sounds correct in the first 5 words
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Scoring Section --&gt;
+        &lt;div class=&quot;scoring-area&quot;&gt;
+            &lt;h2 class=&quot;section-title&quot;&gt;Score the Words&lt;/h2&gt;
+            &lt;p class=&quot;help-text&quot;&gt;Click each sound button to mark it correct (green) or incorrect (red). Click the word card border to mark where student stopped when timer ended.&lt;/p&gt;
+
+            &lt;div class=&quot;timer-display&quot; id=&quot;timerDisplay&quot;&gt;0:00&lt;/div&gt;
+
+            &lt;div class=&quot;controls&quot;&gt;
+                &lt;button class=&quot;btn btn-primary&quot; onclick=&quot;startTimer()&quot;&gt;Start Timer (1 min)&lt;/button&gt;
+                &lt;button class=&quot;btn btn-secondary&quot; onclick=&quot;toggleBracketMode()&quot;&gt;Mark Where Student Stopped&lt;/button&gt;
+                &lt;button class=&quot;btn btn-secondary&quot; onclick=&quot;resetScore()&quot;&gt;Reset All&lt;/button&gt;
+                &lt;button class=&quot;btn btn-primary&quot; style=&quot;background-color: #ffc629; color: #000000;&quot; onclick=&quot;saveToPDF()&quot;&gt;Save to PDF&lt;/button&gt;
+            &lt;/div&gt;
+
+            &lt;div id=&quot;bracketMode&quot; style=&quot;display: none; background-color: #fffbf0; padding: 12px; border-radius: 4px; border-left: 4px solid #ffc629; margin-bottom: 16px; font-size: 14px; color: #2c3e50;&quot;&gt;
+                &lt;strong&gt;Bracket Mode Active:&lt;/strong&gt; Click the word card border where the student stopped when the timer ended.
+            &lt;/div&gt;
+
+            &lt;div class=&quot;word-grid&quot; id=&quot;wordGrid&quot;&gt;&lt;/div&gt;
+
+            &lt;div class=&quot;stats-display&quot;&gt;
+                &lt;div class=&quot;stat-box&quot;&gt;
+                    &lt;div class=&quot;stat-label&quot;&gt;Total Sounds&lt;/div&gt;
+                    &lt;div class=&quot;stat-value&quot; id=&quot;totalSounds&quot;&gt;—&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;stat-box&quot;&gt;
+                    &lt;div class=&quot;stat-label&quot;&gt;Sounds Incorrect&lt;/div&gt;
+                    &lt;div class=&quot;stat-value&quot; id=&quot;incorrectSounds&quot;&gt;0&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;stat-box&quot;&gt;
+                    &lt;div class=&quot;stat-label&quot;&gt;Sounds Correct&lt;/div&gt;
+                    &lt;div class=&quot;stat-value&quot; id=&quot;correctSounds&quot;&gt;0&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;stat-box&quot;&gt;
+                    &lt;div class=&quot;stat-label&quot;&gt;SCM&lt;/div&gt;
+                    &lt;div class=&quot;stat-value&quot; id=&quot;scm&quot;&gt;—&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class=&quot;note&quot;&gt;
+                &lt;strong&gt;SCM Calculation:&lt;/strong&gt; Sounds correct per minute = total sounds read up to bracket (⌉) − incorrect sounds. Time is exactly 1 minute.
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        const words = [
+            { word: &#x27;nem&#x27;, sounds: [&#x27;/n/&#x27;, &#x27;/e/&#x27;, &#x27;/m/&#x27;] },
+            { word: &#x27;rep&#x27;, sounds: [&#x27;/r/&#x27;, &#x27;/e/&#x27;, &#x27;/p/&#x27;] },
+            { word: &#x27;lom&#x27;, sounds: [&#x27;/l/&#x27;, &#x27;/o/&#x27;, &#x27;/m/&#x27;] },
+            { word: &#x27;rab&#x27;, sounds: [&#x27;/r/&#x27;, &#x27;/a/&#x27;, &#x27;/b/&#x27;] },
+            { word: &#x27;som&#x27;, sounds: [&#x27;/s/&#x27;, &#x27;/o/&#x27;, &#x27;/m/&#x27;] },
+            { word: &#x27;ped&#x27;, sounds: [&#x27;/p/&#x27;, &#x27;/e/&#x27;, &#x27;/d/&#x27;] },
+            { word: &#x27;tem&#x27;, sounds: [&#x27;/t/&#x27;, &#x27;/e/&#x27;, &#x27;/m/&#x27;] },
+            { word: &#x27;sib&#x27;, sounds: [&#x27;/s/&#x27;, &#x27;/i/&#x27;, &#x27;/b/&#x27;] },
+            { word: &#x27;lan&#x27;, sounds: [&#x27;/l/&#x27;, &#x27;/a/&#x27;, &#x27;/n/&#x27;] },
+            { word: &#x27;hom&#x27;, sounds: [&#x27;/h/&#x27;, &#x27;/o/&#x27;, &#x27;/m/&#x27;] },
+            { word: &#x27;het&#x27;, sounds: [&#x27;/h/&#x27;, &#x27;/e/&#x27;, &#x27;/t/&#x27;] },
+            { word: &#x27;rem&#x27;, sounds: [&#x27;/r/&#x27;, &#x27;/e/&#x27;, &#x27;/m/&#x27;] },
+            { word: &#x27;tum&#x27;, sounds: [&#x27;/t/&#x27;, &#x27;/u/&#x27;, &#x27;/m/&#x27;] },
+            { word: &#x27;tid&#x27;, sounds: [&#x27;/t/&#x27;, &#x27;/i/&#x27;, &#x27;/d/&#x27;] },
+            { word: &#x27;hig&#x27;, sounds: [&#x27;/h/&#x27;, &#x27;/i/&#x27;, &#x27;/g/&#x27;] },
+            { word: &#x27;teb&#x27;, sounds: [&#x27;/t/&#x27;, &#x27;/e/&#x27;, &#x27;/b/&#x27;] },
+            { word: &#x27;wat&#x27;, sounds: [&#x27;/w/&#x27;, &#x27;/a/&#x27;, &#x27;/t/&#x27;] },
+            { word: &#x27;har&#x27;, sounds: [&#x27;/h/&#x27;, &#x27;/ar/&#x27;] },
+            { word: &#x27;narb&#x27;, sounds: [&#x27;/n/&#x27;, &#x27;/ar/&#x27;, &#x27;/b/&#x27;] },
+            { word: &#x27;fem&#x27;, sounds: [&#x27;/f/&#x27;, &#x27;/e/&#x27;, &#x27;/m/&#x27;] },
+            { word: &#x27;lome&#x27;, sounds: [&#x27;/l/&#x27;, &#x27;/o/&#x27;, &#x27;/m/&#x27;] },
+            { word: &#x27;tarm&#x27;, sounds: [&#x27;/t/&#x27;, &#x27;/ar/&#x27;, &#x27;/m/&#x27;] },
+            { word: &#x27;gor&#x27;, sounds: [&#x27;/g/&#x27;, &#x27;/or/&#x27;] },
+            { word: &#x27;nume&#x27;, sounds: [&#x27;/n/&#x27;, &#x27;/oo/&#x27;, &#x27;/m/&#x27;] },
+            { word: &#x27;dod&#x27;, sounds: [&#x27;/d/&#x27;, &#x27;/o/&#x27;, &#x27;/d/&#x27;] },
+            { word: &#x27;gom&#x27;, sounds: [&#x27;/g/&#x27;, &#x27;/o/&#x27;, &#x27;/m/&#x27;] },
+            { word: &#x27;mim&#x27;, sounds: [&#x27;/m/&#x27;, &#x27;/i/&#x27;, &#x27;/m/&#x27;] },
+            { word: &#x27;fom&#x27;, sounds: [&#x27;/f/&#x27;, &#x27;/o/&#x27;, &#x27;/m/&#x27;] },
+            { word: &#x27;ag&#x27;, sounds: [&#x27;/a/&#x27;, &#x27;/g/&#x27;] },
+            { word: &#x27;sart&#x27;, sounds: [&#x27;/s/&#x27;, &#x27;/ar/&#x27;, &#x27;/t/&#x27;] }
+        ];
+
+        // Track sound status: null = neutral, true = correct, false = incorrect
+        let soundScores = words.map(w =&gt; w.sounds.map(() =&gt; null));
+        let bracketIndex = null;
+        let timerStarted = false;
+        let bracketModeActive = false;
+        let timerInterval = null;
+        let timerSeconds = 0;
+
+        function initializeGrid() {
+            const grid = document.getElementById(&#x27;wordGrid&#x27;);
+            grid.innerHTML = &#x27;&#x27;;
+            
+            words.forEach((wordObj, wordIdx) =&gt; {
+                const card = document.createElement(&#x27;div&#x27;);
+                card.className = &#x27;word-card&#x27;;
+                if (bracketIndex === wordIdx) card.classList.add(&#x27;bracketed&#x27;);
+                card.onclick = (e) =&gt; {
+                    if (bracketModeActive &amp;&amp; e.target === card) {
+                        setBracket(wordIdx);
+                        toggleBracketMode();
+                    }
+                };
+
+                const wordDisplay = document.createElement(&#x27;div&#x27;);
+                wordDisplay.className = &#x27;word-display&#x27;;
+                wordDisplay.textContent = wordObj.word;
+                card.appendChild(wordDisplay);
+
+                const soundsContainer = document.createElement(&#x27;div&#x27;);
+                soundsContainer.className = &#x27;sounds-container&#x27;;
+
+                wordObj.sounds.forEach((sound, soundIdx) =&gt; {
+                    const btn = document.createElement(&#x27;button&#x27;);
+                    btn.className = &#x27;sound-button&#x27;;
+                    btn.textContent = sound;
+                    btn.onclick = (e) =&gt; {
+                        e.stopPropagation();
+                        toggleSoundScore(wordIdx, soundIdx);
+                    };
+
+                    const status = soundScores[wordIdx][soundIdx];
+                    if (status === true) btn.classList.add(&#x27;correct&#x27;);
+                    if (status === false) btn.classList.add(&#x27;incorrect&#x27;);
+                    if (status === null) btn.classList.add(&#x27;neutral&#x27;);
+
+                    soundsContainer.appendChild(btn);
+                });
+
+                card.appendChild(soundsContainer);
+
+                const wordScore = document.createElement(&#x27;div&#x27;);
+                wordScore.className = &#x27;word-score&#x27;;
+                const correct = soundScores[wordIdx].filter(s =&gt; s === true).length;
+                const total = wordObj.sounds.length;
+                wordScore.textContent = `${correct}/${total} sounds`;
+                card.appendChild(wordScore);
+
+                grid.appendChild(card);
+            });
+            
+            updateStats();
+        }
+
+        function toggleSoundScore(wordIdx, soundIdx) {
+            const current = soundScores[wordIdx][soundIdx];
+            if (current === null) {
+                soundScores[wordIdx][soundIdx] = true; // Mark correct
+            } else if (current === true) {
+                soundScores[wordIdx][soundIdx] = false; // Mark incorrect
+            } else {
+                soundScores[wordIdx][soundIdx] = null; // Reset to neutral
+            }
+            initializeGrid();
+        }
+
+        function toggleBracketMode() {
+            bracketModeActive = !bracketModeActive;
+            document.getElementById(&#x27;bracketMode&#x27;).style.display = bracketModeActive ? &#x27;block&#x27; : &#x27;none&#x27;;
+        }
+
+        function setBracket(index) {
+            bracketIndex = index;
+            initializeGrid();
+        }
+
+        function updateStats() {
+            if (bracketIndex === null) {
+                document.getElementById(&#x27;totalSounds&#x27;).textContent = &#x27;—&#x27;;
+                document.getElementById(&#x27;incorrectSounds&#x27;).textContent = &#x27;0&#x27;;
+                document.getElementById(&#x27;correctSounds&#x27;).textContent = &#x27;0&#x27;;
+                document.getElementById(&#x27;scm&#x27;).textContent = &#x27;—&#x27;;
+                return;
+            }
+
+            let totalSounds = 0;
+            let correctSounds = 0;
+            let incorrectSounds = 0;
+
+            for (let i = 0; i &lt;= bracketIndex; i++) {
+                totalSounds += words[i].sounds.length;
+                soundScores[i].forEach(score =&gt; {
+                    if (score === true) correctSounds++;
+                    if (score === false) incorrectSounds++;
+                });
+            }
+
+            const scm = correctSounds;
+
+            document.getElementById(&#x27;totalSounds&#x27;).textContent = totalSounds;
+            document.getElementById(&#x27;incorrectSounds&#x27;).textContent = incorrectSounds;
+            document.getElementById(&#x27;correctSounds&#x27;).textContent = correctSounds;
+            document.getElementById(&#x27;scm&#x27;).textContent = scm;
+        }
+
+        function startTimer() {
+            timerStarted = !timerStarted;
+            const btn = event.target;
+            
+            if (timerStarted) {
+                btn.textContent = &#x27;Stop Timer&#x27;;
+                btn.style.backgroundColor = &#x27;#e74c3c&#x27;;
+                timerSeconds = 0;
+                
+                timerInterval = setInterval(() =&gt; {
+                    timerSeconds++;
+                    updateTimerDisplay();
+                    
+                    if (timerSeconds &gt;= 60) {
+                        clearInterval(timerInterval);
+                        alert(&#x27;1 minute is up! Click a word card to mark where the student stopped.&#x27;);
+                        timerStarted = false;
+                        btn.textContent = &#x27;Start Timer (1 min)&#x27;;
+                        btn.style.backgroundColor = &#x27;&#x27;;
+                    }
+                }, 1000);
+            } else {
+                clearInterval(timerInterval);
+                btn.textContent = &#x27;Start Timer (1 min)&#x27;;
+                btn.style.backgroundColor = &#x27;&#x27;;
+            }
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            const display = `${mins}:${secs.toString().padStart(2, &#x27;0&#x27;)}`;
+            document.getElementById(&#x27;timerDisplay&#x27;).textContent = display;
+        }
+
+        function resetScore() {
+            soundScores = words.map(w =&gt; w.sounds.map(() =&gt; null));
+            bracketIndex = null;
+            timerStarted = false;
+            clearInterval(timerInterval);
+            timerSeconds = 0;
+            document.getElementById(&#x27;timerDisplay&#x27;).textContent = &#x27;0:00&#x27;;
+            initializeGrid();
+        }
+
+        function saveToPDF() {
+            const element = document.querySelector(&#x27;.container&#x27;);
+            const opt = {
+                margin: 10,
+                filename: &#x27;NWF_Practice_Activity.pdf&#x27;,
+                image: { type: &#x27;jpeg&#x27;, quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: &#x27;portrait&#x27;, unit: &#x27;mm&#x27;, format: &#x27;a4&#x27; }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // Initialize on load
+        initializeGrid();
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe><iframe class="pane" id="pane2" title="Phoneme Segmentation Fluency" sandbox="allow-scripts allow-downloads allow-modals allow-popups allow-forms" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Practice Activity: Phonemic Segmentation Fluency (PSF)&lt;/title&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js&quot;&gt;&lt;/script&gt;
+&lt;style&gt;
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; padding: 16px; font-family: &#x27;Segoe UI&#x27;, Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; color: #2c3e50; line-height: 1.6; }
+  .container { width: 100%; max-width: 900px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.1); padding: 28px; overflow-wrap: break-word; }
+  .header { border-bottom: 4px solid #ffc629; padding-bottom: 14px; margin-bottom: 20px; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #7f8c8d; }
+  h1 { margin: 4px 0 6px; font-size: 26px; font-weight: 600; color: #000; }
+  .subtitle { margin: 0; color: #7f8c8d; font-size: 15px; }
+
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+  .tab { font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; padding: 9px 16px; border-radius: 6px; border: 2px solid #000; background: #fff; color: #000; }
+  .tab:hover { background: #fff3cf; }
+  .tab.active { background: #000; color: #ffc629; }
+
+  .script { background: #fffbf0; border-left: 4px solid #ffc629; border-radius: 6px; padding: 16px 18px; margin-bottom: 22px; font-size: 14px; line-height: 1.7; }
+  .script .block + .block { margin-top: 12px; }
+  .script strong.label { display: block; color: #000; margin-bottom: 2px; }
+  .script table { border-collapse: collapse; margin-top: 6px; width: 100%; font-size: 13px; background: #fff; }
+  .script td { border: 1px solid #e3d6a8; padding: 6px 8px; vertical-align: top; }
+
+  .step-title { font-size: 18px; font-weight: 600; color: #000; margin: 0 0 6px; border-bottom: 2px solid #ffc629; display: inline-block; padding-bottom: 4px; }
+  .hint { font-size: 14px; color: #5f6b76; margin: 6px 0 14px; }
+
+  .key { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 13px; background: #f9fbfc; border: 1px solid #e5e9ec; border-radius: 6px; padding: 10px 14px; margin-bottom: 14px; align-items: center; }
+  .key span.k { display: inline-flex; align-items: center; gap: 6px; }
+
+  .timer { font-family: &#x27;Courier New&#x27;, monospace; font-size: 40px; font-weight: 700; letter-spacing: 3px; text-align: center; color: #000; background: linear-gradient(135deg, #ffc629, #ffdc8a); border-radius: 8px; padding: 12px; margin-bottom: 14px; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .tool, .btn { font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; padding: 9px 14px; border-radius: 6px; border: 2px solid #000; background: #fff; color: #000; }
+  .tool:hover, .btn:hover { background: #fff3cf; }
+  .tool.active { background: #000; color: #ffc629; }
+  .btn.dark { background: #000; color: #fff; } .btn.dark:hover { background: #333; }
+  .btn.gold { background: #ffc629; border-color: #ffc629; } .btn.gold:hover { background: #ffb800; }
+  .btn.gray { border-color: #b0b3b2; color: #555; }
+  .spacer { flex: 1; }
+  .mode-note { font-size: 13px; font-weight: 600; color: #000; background: #fffbf0; border-left: 4px solid #ffc629; padding: 8px 12px; border-radius: 4px; margin-bottom: 12px; }
+
+  .list-card { border: 1px solid #ffe8a3; background: #fffdf6; border-radius: 8px; padding: 14px 16px; margin-bottom: 18px; }
+  .list-title { text-align: center; font-weight: 700; font-size: 18px; margin: 0 0 10px; color: #000; }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr) 56px; gap: 8px; align-items: end; padding: 8px 0; border-bottom: 1px solid #e8dfc2; }
+  .row:last-child { border-bottom: none; }
+  .rowtotal { font-size: 14px; color: #000; text-align: right; font-weight: 700; white-space: nowrap; }
+  .rowtotal.dim { color: #b8bec3; font-weight: 600; }
+  .wcard { min-width: 0; padding: 4px 6px; border-radius: 6px; }
+  .wlabel { font-family: &#x27;Courier New&#x27;, monospace; font-weight: 700; font-size: 17px; color: #000; display: inline-block; padding: 0 2px; border-radius: 3px; }
+  .sounds { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 2px; }
+  .snd { font-family: Georgia, serif; font-size: 16px; cursor: pointer; padding: 3px 4px 2px; border: 1px solid transparent; border-radius: 4px; background: transparent; color: #2c3e50; position: relative; line-height: 1.2; }
+  .snd:hover { background: #ffe9a8; }
+  .snd.c { background: #e6f6e9; color: #14532d; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; text-decoration-color: #1e8e3e; }
+  .snd.i { color: #7b1e14; background-image: linear-gradient(to top right, transparent calc(50% - 1.5px), #c0392b calc(50% - 1.5px), #c0392b calc(50% + 1.5px), transparent calc(50% + 1.5px)); }
+  .snd.s { color: #7b1e14; background-image: linear-gradient(to top right, transparent calc(50% - 1.5px), #c0392b calc(50% - 1.5px), #c0392b calc(50% + 1.5px), transparent calc(50% + 1.5px)); background-color: #e6f6e9; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; text-decoration-color: #1e8e3e; }
+  .snd.s::before { content: &#x27;SC&#x27;; position: absolute; top: -9px; left: 2px; font-family: &#x27;Segoe UI&#x27;, sans-serif; font-size: 9px; font-weight: 700; color: #1e8e3e; }
+  .snd.bracket::after { content: &#x27; ]&#x27;; font-weight: 700; color: #000; background: #ffc629; border-radius: 2px; }
+  .snd.after { opacity: .4; }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+  .stat { background: #fffbf0; border-left: 4px solid #ffc629; border-radius: 6px; padding: 12px; text-align: center; }
+  .stat .lbl { font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; color: #7f8c8d; }
+  .stat .val { font-size: 28px; font-weight: 700; color: #000; }
+  .note { background: #f0f0f0; border-left: 4px solid #b0b3b2; border-radius: 4px; padding: 12px 14px; font-size: 14px; }
+
+  @media (max-width: 640px) {
+    .container { padding: 16px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .row { grid-template-columns: 1fr 1fr 1fr 44px; gap: 4px; }
+    .snd { font-size: 14px; padding: 3px 2px 2px; }
+    .wlabel { font-size: 15px; }
+    .timer { font-size: 32px; }
+    h1 { font-size: 22px; }
+  }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;container&quot; id=&quot;capture&quot;&gt;
+
+  &lt;div class=&quot;header&quot;&gt;
+    &lt;div class=&quot;eyebrow&quot;&gt;Practice Activity&lt;/div&gt;
+    &lt;h1&gt;Scoring Phonemic Segmentation Fluency&lt;/h1&gt;
+    &lt;p class=&quot;subtitle&quot; id=&quot;subtitle&quot;&gt;&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;tabs&quot; data-html2canvas-ignore=&quot;true&quot;&gt;
+    &lt;button class=&quot;tab active&quot; data-set=&quot;0&quot; onclick=&quot;loadSet(0)&quot;&gt;Practice 1&lt;/button&gt;
+    &lt;button class=&quot;tab&quot; data-set=&quot;1&quot; onclick=&quot;loadSet(1)&quot;&gt;Practice 2&lt;/button&gt;
+    &lt;button class=&quot;tab&quot; data-set=&quot;2&quot; onclick=&quot;loadSet(2)&quot;&gt;Practice 3&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;script&quot;&gt;
+    &lt;div class=&quot;block&quot;&gt;
+      &lt;strong class=&quot;label&quot;&gt;Examiner script&lt;/strong&gt;
+      &quot;I am going to say a word. After I say it, you tell me all the sounds in the word. So, if I say &#x27;am,&#x27; you would say /a/ /m/.&lt;br&gt;
+      Let&#x27;s try one (1 second pause). Tell me the sounds in &#x27;it&#x27;.&quot;
+      &lt;table&gt;
+        &lt;tr&gt;&lt;td style=&quot;width:50%&quot;&gt;&lt;strong&gt;CORRECT&lt;/strong&gt; &amp;mdash; student says /i/ /t/&lt;/td&gt;&lt;td&gt;&quot;Very good. The sounds in &#x27;it&#x27; are /i/ /t/.&quot;&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;&lt;strong&gt;INCORRECT&lt;/strong&gt; &amp;mdash; student gives any other response&lt;/td&gt;&lt;td&gt;&quot;The sounds in &#x27;it&#x27; are /i/ /t/. Your turn. Tell me the sounds in &#x27;it.&#x27;&quot;&lt;/td&gt;&lt;/tr&gt;
+      &lt;/table&gt;
+      &quot;OK. Here is your first word.&quot;
+    &lt;/div&gt;
+    &lt;div class=&quot;block&quot;&gt;
+      &lt;strong class=&quot;label&quot;&gt;Reminders&lt;/strong&gt;
+      &lt;strong&gt;Start timer:&lt;/strong&gt; after you give the first word.&lt;br&gt;
+      &lt;strong&gt;Prompts:&lt;/strong&gt; if the student hesitates, wait 3 seconds, give the next word, and score the missed word as incorrect.&lt;br&gt;
+      &lt;strong&gt;Discontinue:&lt;/strong&gt; &lt;span id=&quot;discontinue&quot;&gt;&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;h2 class=&quot;step-title&quot;&gt;Score the student&#x27;s response&lt;/h2&gt;
+  &lt;p class=&quot;hint&quot;&gt;Click a sound to slash it when the student says it incorrectly (or omits it). Sounds you leave unmarked count as correct. Use the bracket tool to mark the last sound the student said when the timer ended. The tally at the end of each row shows sounds correct out of total and updates as you mark errors.&lt;/p&gt;
+
+  &lt;div class=&quot;key&quot;&gt;
+    &lt;strong&gt;Key:&lt;/strong&gt;
+    &lt;span class=&quot;k&quot;&gt;&lt;span class=&quot;snd i&quot;&gt;/s/&lt;/span&gt; click a sound the student says incorrectly to slash it (click again to undo)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;Unmarked sounds count as correct (up to the bracket ], if you place one)&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;timer&quot; id=&quot;timer&quot;&gt;0:00&lt;/div&gt;
+
+  &lt;div class=&quot;toolbar&quot; data-html2canvas-ignore=&quot;true&quot;&gt;
+    &lt;button class=&quot;tool active&quot; id=&quot;toolScore&quot; onclick=&quot;setMode(&#x27;score&#x27;)&quot;&gt;/ Mark incorrect&lt;/button&gt;
+    &lt;button class=&quot;tool&quot; id=&quot;toolBracket&quot; onclick=&quot;setMode(&#x27;bracket&#x27;)&quot;&gt;] Last sound said&lt;/button&gt;
+    &lt;span class=&quot;spacer&quot;&gt;&lt;/span&gt;
+    &lt;button class=&quot;btn dark&quot; id=&quot;timerBtn&quot; onclick=&quot;toggleTimer()&quot;&gt;Start timer&lt;/button&gt;
+    &lt;button class=&quot;btn gray&quot; onclick=&quot;resetAll()&quot;&gt;&amp;#8634; Reset&lt;/button&gt;
+    &lt;button class=&quot;btn gold&quot; onclick=&quot;savePDF()&quot;&gt;Save to PDF&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mode-note&quot; id=&quot;modeNote&quot; data-html2canvas-ignore=&quot;true&quot;&gt;&lt;/div&gt;
+
+  &lt;div class=&quot;list-card&quot;&gt;
+    &lt;div class=&quot;list-title&quot; id=&quot;listTitle&quot;&gt;Word List&lt;/div&gt;
+    &lt;div id=&quot;list&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;stats&quot;&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;lbl&quot;&gt;Sounds up to ]&lt;/div&gt;&lt;div class=&quot;val&quot; id=&quot;sRead&quot;&gt;&amp;mdash;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;lbl&quot;&gt;Incorrect&lt;/div&gt;&lt;div class=&quot;val&quot; id=&quot;sInc&quot;&gt;0&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;lbl&quot;&gt;Total correct&lt;/div&gt;&lt;div class=&quot;val&quot; id=&quot;sCorrect&quot;&gt;&amp;mdash;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;note&quot;&gt;&lt;strong&gt;Total correct&lt;/strong&gt; = all sounds (or sounds up to the bracket, if you place one) minus sounds marked incorrect. The tally at the end of each row shows correct / total sounds in that row.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  const SETS = [
+    { name: &#x27;PSF Video Scoring Practice 1&#x27;, bench: &#x27;Benchmark PSF 1.End&#x27;,
+      discontinue: &#x27;if the student does not get any sounds correct in the first 5 words, discontinue PSF.&#x27;,
+      rowTotals: [6,8,9,9,12,12,13,15,15,17],
+      rows: [
+        [[&#x27;no&#x27;,&#x27;n O&#x27;],[&#x27;my&#x27;,&#x27;m I&#x27;],[&#x27;say&#x27;,&#x27;s A&#x27;]],
+        [[&#x27;all&#x27;,&#x27;o l&#x27;],[&#x27;line&#x27;,&#x27;l I n&#x27;],[&#x27;down&#x27;,&#x27;d ow n&#x27;]],
+        [[&#x27;safe&#x27;,&#x27;s A f&#x27;],[&#x27;gas&#x27;,&#x27;g a s&#x27;],[&#x27;ball&#x27;,&#x27;b o l&#x27;]],
+        [[&#x27;soon&#x27;,&#x27;s oo n&#x27;],[&#x27;news&#x27;,&#x27;n oo z&#x27;],[&#x27;gone&#x27;,&#x27;g o n&#x27;]],
+        [[&#x27;space&#x27;,&#x27;s p A s&#x27;],[&#x27;still&#x27;,&#x27;s t i l&#x27;],[&#x27;story&#x27;,&#x27;s t or E&#x27;]],
+        [[&#x27;hard&#x27;,&#x27;h o r d&#x27;],[&#x27;leaves&#x27;,&#x27;l E v z&#x27;],[&#x27;season&#x27;,&#x27;s E z n&#x27;]],
+        [[&#x27;speak&#x27;,&#x27;s p E k&#x27;],[&#x27;enjoy&#x27;,&#x27;e n j oy&#x27;],[&#x27;having&#x27;,&#x27;h a v i ng&#x27;]],
+        [[&#x27;women&#x27;,&#x27;w i m e n&#x27;],[&#x27;powerful&#x27;,&#x27;p ow er f l&#x27;],[&#x27;forget&#x27;,&#x27;f or g e t&#x27;]],
+        [[&#x27;radio&#x27;,&#x27;r A d E O&#x27;],[&#x27;window&#x27;,&#x27;w i n d O&#x27;],[&#x27;empty&#x27;,&#x27;e m p t E&#x27;]],
+        [[&#x27;island&#x27;,&#x27;I l a n d&#x27;],[&#x27;behind&#x27;,&#x27;b E h I n d&#x27;],[&#x27;history&#x27;,&#x27;h i s t or E&#x27;]]
+      ] },
+    { name: &#x27;PSF Video Scoring Practice 2&#x27;, bench: &#x27;Benchmark PSF K.Beginning&#x27;,
+      discontinue: &#x27;if the student does not get any sounds correct in the first 5 words, discontinue PSF; do not administer NWF and WRF.&#x27;,
+      rowTotals: [6,6,9,9,9,9,9,9,9,9],
+      rows: [
+        [[&#x27;my&#x27;,&#x27;m I&#x27;],[&#x27;year&#x27;,&#x27;y ear&#x27;],[&#x27;the&#x27;,&#x27;TH u&#x27;]],
+        [[&#x27;new&#x27;,&#x27;n oo&#x27;],[&#x27;an&#x27;,&#x27;a n&#x27;],[&#x27;at&#x27;,&#x27;a t&#x27;]],
+        [[&#x27;mine&#x27;,&#x27;m I n&#x27;],[&#x27;wait&#x27;,&#x27;w A t&#x27;],[&#x27;made&#x27;,&#x27;m A d&#x27;]],
+        [[&#x27;then&#x27;,&#x27;TH e n&#x27;],[&#x27;both&#x27;,&#x27;b O th&#x27;],[&#x27;chain&#x27;,&#x27;ch A n&#x27;]],
+        [[&#x27;man&#x27;,&#x27;m a n&#x27;],[&#x27;store&#x27;,&#x27;s t or&#x27;],[&#x27;blue&#x27;,&#x27;b l oo&#x27;]],
+        [[&#x27;ride&#x27;,&#x27;r I d&#x27;],[&#x27;board&#x27;,&#x27;b or d&#x27;],[&#x27;hill&#x27;,&#x27;h i l&#x27;]],
+        [[&#x27;piece&#x27;,&#x27;p E s&#x27;],[&#x27;south&#x27;,&#x27;s ow th&#x27;],[&#x27;rich&#x27;,&#x27;r i ch&#x27;]],
+        [[&#x27;safe&#x27;,&#x27;s A f&#x27;],[&#x27;good&#x27;,&#x27;g uu d&#x27;],[&#x27;half&#x27;,&#x27;h a f&#x27;]],
+        [[&#x27;wrote&#x27;,&#x27;r O t&#x27;],[&#x27;week&#x27;,&#x27;w E k&#x27;],[&#x27;few&#x27;,&#x27;f y oo&#x27;]],
+        [[&#x27;stay&#x27;,&#x27;s t A&#x27;],[&#x27;hole&#x27;,&#x27;h O l&#x27;],[&#x27;other&#x27;,&#x27;u TH er&#x27;]]
+      ] },
+    { name: &#x27;PSF Scoring Practice 3&#x27;, bench: &#x27;Benchmark PSF 1.Middle&#x27;,
+      discontinue: &#x27;if the student does not get any sounds correct in the first 5 words, discontinue PSF.&#x27;,
+      rowTotals: [6,8,9,9,12,12,13,15,15,17],
+      rows: [
+        [[&#x27;be&#x27;,&#x27;b E&#x27;],[&#x27;who&#x27;,&#x27;h oo&#x27;],[&#x27;say&#x27;,&#x27;s A&#x27;]],
+        [[&#x27;on&#x27;,&#x27;o n&#x27;],[&#x27;said&#x27;,&#x27;s e d&#x27;],[&#x27;came&#x27;,&#x27;k A m&#x27;]],
+        [[&#x27;wave&#x27;,&#x27;w A v&#x27;],[&#x27;bought&#x27;,&#x27;b o t&#x27;],[&#x27;talk&#x27;,&#x27;t o k&#x27;]],
+        [[&#x27;job&#x27;,&#x27;j o b&#x27;],[&#x27;mouth&#x27;,&#x27;m ow th&#x27;],[&#x27;allow&#x27;,&#x27;u l ow&#x27;]],
+        [[&#x27;skin&#x27;,&#x27;s k i n&#x27;],[&#x27;just&#x27;,&#x27;j u s t&#x27;],[&#x27;today&#x27;,&#x27;t oo d A&#x27;]],
+        [[&#x27;written&#x27;,&#x27;r i t n&#x27;],[&#x27;plus&#x27;,&#x27;p l u s&#x27;],[&#x27;story&#x27;,&#x27;s t or E&#x27;]],
+        [[&#x27;trip&#x27;,&#x27;t r i p&#x27;],[&#x27;alone&#x27;,&#x27;u l O n&#x27;],[&#x27;forward&#x27;,&#x27;f or w er d&#x27;]],
+        [[&#x27;center&#x27;,&#x27;s e n t er&#x27;],[&#x27;winter&#x27;,&#x27;w i n t er&#x27;],[&#x27;stand&#x27;,&#x27;s t a n d&#x27;]],
+        [[&#x27;warning&#x27;,&#x27;w or n i ng&#x27;],[&#x27;pretty&#x27;,&#x27;p r i t E&#x27;],[&#x27;safety&#x27;,&#x27;s A f t E&#x27;]],
+        [[&#x27;brother&#x27;,&#x27;b r u TH er&#x27;],[&#x27;building&#x27;,&#x27;b i l d i ng&#x27;],[&#x27;library&#x27;,&#x27;l I b r air E&#x27;]]
+      ] }
+  ];
+
+  // marks[set] = array of sound states: 0 none, 1 correct, 2 incorrect, 3 self-corrected
+  const marks = [], brackets = [null, null, null];
+  let cur = 0, mode = &#x27;score&#x27;, seconds = 0, tick = null;
+
+  // Flatten each set into a list of sounds with global indices
+  SETS.forEach(s =&gt; {
+    let g = 0;
+    s.flat = s.rows.map(r =&gt; r.map(([w, snd]) =&gt; {
+      const sounds = snd.split(&#x27; &#x27;);
+      const out = { word: w, sounds, start: g };
+      g += sounds.length;
+      return out;
+    }));
+    s.total = g;
+    marks.push(new Array(g).fill(0));
+  });
+
+  // Self-check: row totals must match the printed form
+  SETS.forEach((s, si) =&gt; s.flat.forEach((row, ri) =&gt; {
+    const n = row.reduce((a, w) =&gt; a + w.sounds.length, 0);
+    if (n !== s.rowTotals[ri]) console.warn(&#x27;Row total mismatch&#x27;, si, ri, n, s.rowTotals[ri]);
+  }));
+
+  const listEl = document.getElementById(&#x27;list&#x27;);
+
+  function build() {
+    const s = SETS[cur];
+    document.getElementById(&#x27;subtitle&#x27;).textContent = &#x27;DIBELS 8th Edition Phonemic Segmentation Fluency \u00b7 &#x27; + s.bench;
+    document.getElementById(&#x27;listTitle&#x27;).textContent = s.name;
+    document.getElementById(&#x27;discontinue&#x27;).textContent = s.discontinue;
+    listEl.innerHTML = &#x27;&#x27;;
+    s.flat.forEach((row, ri) =&gt; {
+      const r = document.createElement(&#x27;div&#x27;); r.className = &#x27;row&#x27;;
+      row.forEach(w =&gt; {
+        const card = document.createElement(&#x27;div&#x27;); card.className = &#x27;wcard&#x27;;
+        const lab = document.createElement(&#x27;span&#x27;); lab.className = &#x27;wlabel&#x27;; lab.textContent = w.word;
+        card.appendChild(lab);
+        const wrap = document.createElement(&#x27;div&#x27;); wrap.className = &#x27;sounds&#x27;;
+        w.sounds.forEach((sn, k) =&gt; {
+          const b = document.createElement(&#x27;span&#x27;); b.className = &#x27;snd&#x27;; b.textContent = &#x27;/&#x27; + sn + &#x27;/&#x27;;
+          b.dataset.g = w.start + k;
+          b.onclick = () =&gt; onSound(w.start + k);
+          wrap.appendChild(b);
+        });
+        card.appendChild(wrap);
+        r.appendChild(card);
+      });
+      const t = document.createElement(&#x27;div&#x27;); t.className = &#x27;rowtotal&#x27;; t.dataset.row = ri; t.textContent = s.rowTotals[ri] + &#x27;/&#x27; + s.rowTotals[ri];
+      r.appendChild(t);
+      listEl.appendChild(r);
+    });
+    render();
+  }
+
+  function onSound(g) {
+    if (mode === &#x27;bracket&#x27;) { brackets[cur] = (brackets[cur] === g) ? null : g; }
+    else { marks[cur][g] = marks[cur][g] === 2 ? 0 : 2; }
+    render();
+  }
+
+  function render() {
+    const m = marks[cur], br = brackets[cur], S = SETS[cur];
+    document.querySelectorAll(&#x27;.snd[data-g]&#x27;).forEach(el =&gt; {
+      const g = +el.dataset.g;
+      el.className = &#x27;snd&#x27; + (m[g] === 2 ? &#x27; i&#x27; : &#x27;&#x27;);
+      if (br === g) el.classList.add(&#x27;bracket&#x27;);
+      if (br !== null &amp;&amp; g &gt; br) el.classList.add(&#x27;after&#x27;);
+    });
+    const limit = br === null ? S.total - 1 : br;   // no bracket yet: count every sound
+    let inc = 0;
+    for (let g = 0; g &lt;= limit; g++) if (m[g] === 2) inc++;
+    // Row tallies: correct / total for each line (stops at the bracket once placed)
+    document.querySelectorAll(&#x27;.rowtotal&#x27;).forEach(el =&gt; {
+      const ri = +el.dataset.row, total = S.rowTotals[ri];
+      const start = S.flat[ri][0].start, end = start + total - 1;
+      if (start &gt; limit) { el.textContent = &#x27;\u2014&#x27;; el.className = &#x27;rowtotal dim&#x27;; return; }
+      const upto = Math.min(end, limit);
+      let c = 0;
+      for (let g = start; g &lt;= upto; g++) if (m[g] !== 2) c++;
+      el.textContent = c + &#x27;/&#x27; + total;
+      el.className = &#x27;rowtotal&#x27;;
+    });
+    document.getElementById(&#x27;sRead&#x27;).textContent = br === null ? &#x27;\u2014&#x27; : br + 1;
+    document.getElementById(&#x27;sInc&#x27;).textContent = inc;
+    document.getElementById(&#x27;sCorrect&#x27;).textContent = limit + 1 - inc;
+  }
+
+  function setMode(md) {
+    mode = md;
+    document.getElementById(&#x27;toolScore&#x27;).classList.toggle(&#x27;active&#x27;, md === &#x27;score&#x27;);
+    document.getElementById(&#x27;toolBracket&#x27;).classList.toggle(&#x27;active&#x27;, md === &#x27;bracket&#x27;);
+    document.getElementById(&#x27;modeNote&#x27;).textContent = md === &#x27;score&#x27;
+      ? &#x27;Click a sound to slash it as incorrect. Unmarked sounds count as correct.&#x27;
+      : &#x27;Click the last sound the student said when the timer ended.&#x27;;
+  }
+
+  function loadSet(i) {
+    cur = i;
+    document.querySelectorAll(&#x27;.tab&#x27;).forEach(t =&gt; t.classList.toggle(&#x27;active&#x27;, +t.dataset.set === i));
+    stopTimer(); seconds = 0; showTime();
+    setMode(&#x27;score&#x27;);
+    build();
+  }
+
+  function showTime() {
+    document.getElementById(&#x27;timer&#x27;).textContent = Math.floor(seconds / 60) + &#x27;:&#x27; + String(seconds % 60).padStart(2, &#x27;0&#x27;);
+  }
+  function stopTimer() {
+    if (tick) { clearInterval(tick); tick = null; }
+    document.getElementById(&#x27;timerBtn&#x27;).textContent = &#x27;Start timer&#x27;;
+  }
+  function toggleTimer() {
+    if (tick) { stopTimer(); return; }
+    if (seconds &gt;= 60) seconds = 0;
+    showTime();
+    document.getElementById(&#x27;timerBtn&#x27;).textContent = &#x27;Stop timer&#x27;;
+    tick = setInterval(() =&gt; {
+      seconds++; showTime();
+      if (seconds &gt;= 60) {
+        stopTimer(); setMode(&#x27;bracket&#x27;);
+        document.getElementById(&#x27;modeNote&#x27;).textContent = &#x27;Time! Click the last sound the student said to place the bracket.&#x27;;
+      }
+    }, 1000);
+  }
+
+  function resetAll() {
+    marks[cur].fill(0); brackets[cur] = null;
+    stopTimer(); seconds = 0; showTime();
+    setMode(&#x27;score&#x27;); render();
+  }
+
+  function savePDF() {
+    html2pdf().set({
+      margin: 8, filename: &#x27;PSF_Scoring_Practice_&#x27; + (cur + 1) + &#x27;.pdf&#x27;,
+      image: { type: &#x27;jpeg&#x27;, quality: 0.98 }, html2canvas: { scale: 2 },
+      jsPDF: { unit: &#x27;mm&#x27;, format: &#x27;letter&#x27;, orientation: &#x27;portrait&#x27; },
+      pagebreak: { mode: [&#x27;css&#x27;, &#x27;legacy&#x27;] }
+    }).from(document.getElementById(&#x27;capture&#x27;)).save();
+  }
+
+  setMode(&#x27;score&#x27;);
+  build();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe><iframe class="pane" id="pane3" title="Oral Reading Fluency" sandbox="allow-scripts allow-downloads allow-modals allow-popups allow-forms" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Practice Activity: Oral Reading Fluency (ORF)&lt;/title&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js&quot;&gt;&lt;/script&gt;
+&lt;style&gt;
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 16px;
+    font-family: &#x27;Segoe UI&#x27;, Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa; color: #2c3e50; line-height: 1.6;
+  }
+  .container {
+    width: 100%; max-width: 900px; margin: 0 auto;
+    background: #fff; border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    padding: 28px; overflow-wrap: break-word;
+  }
+  .header { border-bottom: 4px solid #ffc629; padding-bottom: 14px; margin-bottom: 20px; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #7f8c8d; }
+  h1 { margin: 4px 0 6px; font-size: 26px; font-weight: 600; color: #000; }
+  .subtitle { margin: 0; color: #7f8c8d; font-size: 15px; }
+
+  .script {
+    background: #fffbf0; border-left: 4px solid #ffc629; border-radius: 6px;
+    padding: 16px 18px; margin-bottom: 22px; font-size: 14px; line-height: 1.7;
+  }
+  .script strong.label { display: block; color: #000; margin-bottom: 2px; }
+  .script .block + .block { margin-top: 12px; }
+
+  .step-title {
+    font-size: 18px; font-weight: 600; color: #000; margin: 0 0 6px;
+    border-bottom: 2px solid #ffc629; display: inline-block; padding-bottom: 4px;
+  }
+  .hint { font-size: 14px; color: #5f6b76; margin: 6px 0 14px; }
+
+  .timer {
+    font-family: &#x27;Courier New&#x27;, monospace; font-size: 40px; font-weight: 700;
+    letter-spacing: 3px; text-align: center; color: #000;
+    background: linear-gradient(135deg, #ffc629, #ffdc8a);
+    border-radius: 8px; padding: 12px; margin-bottom: 14px;
+  }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .tool, .btn {
+    font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+    padding: 9px 14px; border-radius: 6px; border: 2px solid #000;
+    background: #fff; color: #000; transition: background .15s;
+  }
+  .tool:hover, .btn:hover { background: #fff3cf; }
+  .tool.active { background: #000; color: #ffc629; }
+  .btn.dark { background: #000; color: #fff; }
+  .btn.dark:hover { background: #333; }
+  .btn.gold { background: #ffc629; border-color: #ffc629; }
+  .btn.gold:hover { background: #ffb800; }
+  .btn.gray { border-color: #b0b3b2; color: #555; }
+  .spacer { flex: 1; }
+
+  .mode-note {
+    font-size: 13px; font-weight: 600; color: #000;
+    background: #fffbf0; border-left: 4px solid #ffc629;
+    padding: 8px 12px; border-radius: 4px; margin-bottom: 12px;
+  }
+
+  /* Passage */
+  .passage-card {
+    border: 1px solid #ffe8a3; background: #fffdf6; border-radius: 8px;
+    padding: 22px 26px; margin-bottom: 18px;
+  }
+  .passage-title { text-align: center; font-weight: 700; font-size: 20px; margin: 0 0 14px; color: #000; }
+  .passage p { margin: 0 0 14px; font-family: Georgia, &#x27;Times New Roman&#x27;, serif; font-size: 18px; line-height: 2.2; text-align: left; }
+  .passage p:last-child { margin-bottom: 0; }
+  .word {
+    display: inline-block; cursor: pointer; padding: 0 3px; margin: 0 1px;
+    border-radius: 3px; position: relative; white-space: nowrap;
+  }
+  .word:hover { background: #ffe9a8; }
+  /* Slash through the word */
+  .word.error {
+    background-image: linear-gradient(to top right,
+      transparent calc(50% - 1.5px), #c0392b calc(50% - 1.5px),
+      #c0392b calc(50% + 1.5px), transparent calc(50% + 1.5px));
+    color: #7b1e14;
+  }
+  .word.bracket { background-color: #ffc629; font-weight: 700; }
+  .word.bracket::after { content: &#x27;]&#x27;; font-weight: 700; margin-left: 1px; }
+  .word.after-bracket { color: #a0a6ab; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+  .stat { background: #fffbf0; border-left: 4px solid #ffc629; border-radius: 6px; padding: 12px; text-align: center; }
+  .stat .lbl { font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; color: #7f8c8d; }
+  .stat .val { font-size: 28px; font-weight: 700; color: #000; }
+  .note { background: #f0f0f0; border-left: 4px solid #b0b3b2; border-radius: 4px; padding: 12px 14px; font-size: 14px; }
+
+  @media (max-width: 640px) {
+    .container { padding: 16px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .passage p { font-size: 16px; line-height: 2.1; }
+    .passage-card { padding: 16px; }
+    .timer { font-size: 32px; }
+    h1 { font-size: 22px; }
+  }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;container&quot; id=&quot;capture&quot;&gt;
+
+  &lt;div class=&quot;header&quot;&gt;
+    &lt;div class=&quot;eyebrow&quot;&gt;Practice Activity&lt;/div&gt;
+    &lt;h1&gt;Scoring Oral Reading Fluency&lt;/h1&gt;
+    &lt;p class=&quot;subtitle&quot;&gt;DIBELS 8th Edition ORF Benchmark 2.Middle &amp;middot; &quot;Pay Phones&quot;&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;script&quot;&gt;
+    &lt;div class=&quot;block&quot;&gt;
+      &lt;strong class=&quot;label&quot;&gt;Examiner script&lt;/strong&gt;
+      &quot;Please read this (point to passage) out loud. If you get stuck, I will tell you the word, so you can keep reading. When I say &#x27;Stop&#x27; I may ask you to tell me about what you read, so do your best reading. Start here (point to first word of first paragraph of passage). Ready? Begin.&quot;
+    &lt;/div&gt;
+    &lt;div class=&quot;block&quot;&gt;
+      &lt;strong class=&quot;label&quot;&gt;Reminders&lt;/strong&gt;
+      &lt;strong&gt;Start timer:&lt;/strong&gt; when the student says the first word.&lt;br&gt;
+      &lt;strong&gt;Prompts:&lt;/strong&gt; if the student hesitates, wait 3 seconds, give the correct word, and mark the missed word as incorrect.&lt;br&gt;
+      &lt;strong&gt;Discontinue:&lt;/strong&gt; if the student does not get any words correct within the first line, discontinue ORF.
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;h2 class=&quot;step-title&quot;&gt;Score the passage&lt;/h2&gt;
+  &lt;p class=&quot;hint&quot;&gt;As the student reads, click a word to slash it as an error. Use the bracket tool to mark the last word read when the timer ends. Self-corrections are not errors.&lt;/p&gt;
+
+  &lt;div class=&quot;timer&quot; id=&quot;timer&quot;&gt;0:00&lt;/div&gt;
+
+  &lt;div class=&quot;toolbar&quot; data-html2canvas-ignore=&quot;true&quot;&gt;
+    &lt;button class=&quot;tool active&quot; id=&quot;toolError&quot; onclick=&quot;setMode(&#x27;error&#x27;)&quot;&gt;/ Mark error&lt;/button&gt;
+    &lt;button class=&quot;tool&quot; id=&quot;toolBracket&quot; onclick=&quot;setMode(&#x27;bracket&#x27;)&quot;&gt;] Last word read&lt;/button&gt;
+    &lt;span class=&quot;spacer&quot;&gt;&lt;/span&gt;
+    &lt;button class=&quot;btn dark&quot; id=&quot;timerBtn&quot; onclick=&quot;toggleTimer()&quot;&gt;Start timer&lt;/button&gt;
+    &lt;button class=&quot;btn gray&quot; onclick=&quot;resetAll()&quot;&gt;&amp;#8634; Reset&lt;/button&gt;
+    &lt;button class=&quot;btn gold&quot; onclick=&quot;savePDF()&quot;&gt;Save to PDF&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mode-note&quot; id=&quot;modeNote&quot; data-html2canvas-ignore=&quot;true&quot;&gt;Click any word to slash it as an error.&lt;/div&gt;
+
+  &lt;div class=&quot;passage-card&quot;&gt;
+    &lt;div class=&quot;passage-title&quot;&gt;Pay Phones&lt;/div&gt;
+    &lt;div class=&quot;passage&quot; id=&quot;passage&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;stats&quot;&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;lbl&quot;&gt;Total words read&lt;/div&gt;&lt;div class=&quot;val&quot; id=&quot;sRead&quot;&gt;&amp;mdash;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;lbl&quot;&gt;Total errors&lt;/div&gt;&lt;div class=&quot;val&quot; id=&quot;sErr&quot;&gt;0&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;lbl&quot;&gt;Words correct&lt;/div&gt;&lt;div class=&quot;val&quot; id=&quot;sCorrect&quot;&gt;&amp;mdash;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;lbl&quot;&gt;CWPM&lt;/div&gt;&lt;div class=&quot;val&quot; id=&quot;sCwpm&quot;&gt;&amp;mdash;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;note&quot;&gt;&lt;strong&gt;CWPM&lt;/strong&gt; = words read up to the bracket (]) &amp;minus; errors. Errors after the bracket are not counted.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  // 203 words total; hyphenated &quot;long-distance&quot; counts as two words (matches DIBELS cumulative counts)
+  const paragraphs = [
+    &quot;Do you know what a pay phone is? In the old days when people were not home and wanted to make a phone call, they had to use a pay phone. There were no cell phones back then.&quot;,
+    &quot;A pay phone was long, black and silver. It was about the size of a large shoe box. Most pay phones were in front of stores or on busy streets.&quot;,
+    &quot;Some pay phones were inside a tall glass box with a door. You had to step inside to use the phone. When you closed the door, you did not hear much noise. The person you called could hear you better because of the quiet.&quot;,
+    &quot;To make a call, you put coins into a slot in the phone. You could talk for only a few minutes. If you wanted to talk longer you had to put in more change.&quot;,
+    &quot;A phone call made to someone in another town was known as a long-distance call. To make a long-distance call, you dialed zero to speak to an operator. The operator would tell you how much change to put into the coin slot. Sometimes you had to put in a whole pocketful of dimes and quarters.&quot;
+  ];
+
+  const errors = new Set();
+  let bracket = null;
+  let mode = &#x27;error&#x27;;
+  let seconds = 0, tick = null;
+
+  const passageEl = document.getElementById(&#x27;passage&#x27;);
+
+  function build() {
+    passageEl.innerHTML = &#x27;&#x27;;
+    let idx = 0;
+    paragraphs.forEach(text =&gt; {
+      const p = document.createElement(&#x27;p&#x27;);
+      const tokens = text.split(&#x27; &#x27;);
+      tokens.forEach((tok, ti) =&gt; {
+        // Hyphenated compounds count as two words in DIBELS (e.g., long-distance)
+        const parts = tok.includes(&#x27;-&#x27;) ? tok.split(/(?&lt;=-)/) : [tok];
+        parts.forEach((w, pi) =&gt; {
+          const span = document.createElement(&#x27;span&#x27;);
+          span.className = &#x27;word&#x27;;
+          span.textContent = w;
+          span.dataset.i = idx;
+          const myIdx = idx;
+          span.addEventListener(&#x27;click&#x27;, () =&gt; onWord(myIdx));
+          if (pi &gt; 0) span.style.marginLeft = &#x27;0&#x27;;
+          p.appendChild(span);
+          idx++;
+        });
+        if (ti &lt; tokens.length - 1) p.appendChild(document.createTextNode(&#x27; &#x27;));
+      });
+      passageEl.appendChild(p);
+    });
+    render();
+  }
+
+  function onWord(i) {
+    if (mode === &#x27;bracket&#x27;) {
+      bracket = (bracket === i) ? null : i;
+    } else {
+      errors.has(i) ? errors.delete(i) : errors.add(i);
+    }
+    render();
+  }
+
+  function render() {
+    document.querySelectorAll(&#x27;.word&#x27;).forEach(el =&gt; {
+      const i = +el.dataset.i;
+      el.classList.toggle(&#x27;error&#x27;, errors.has(i));
+      el.classList.toggle(&#x27;bracket&#x27;, bracket === i);
+      el.classList.toggle(&#x27;after-bracket&#x27;, bracket !== null &amp;&amp; i &gt; bracket);
+    });
+    let errCount = 0;
+    errors.forEach(i =&gt; { if (bracket === null || i &lt;= bracket) errCount++; });
+    const read = bracket !== null ? bracket + 1 : null;
+    document.getElementById(&#x27;sErr&#x27;).textContent = errCount;
+    document.getElementById(&#x27;sRead&#x27;).textContent = read ?? &#x27;\u2014&#x27;;
+    document.getElementById(&#x27;sCorrect&#x27;).textContent = read !== null ? read - errCount : &#x27;\u2014&#x27;;
+    document.getElementById(&#x27;sCwpm&#x27;).textContent = read !== null ? read - errCount : &#x27;\u2014&#x27;;
+  }
+
+  function setMode(m) {
+    mode = m;
+    document.getElementById(&#x27;toolError&#x27;).classList.toggle(&#x27;active&#x27;, m === &#x27;error&#x27;);
+    document.getElementById(&#x27;toolBracket&#x27;).classList.toggle(&#x27;active&#x27;, m === &#x27;bracket&#x27;);
+    document.getElementById(&#x27;modeNote&#x27;).textContent = m === &#x27;error&#x27;
+      ? &#x27;Click any word to slash it as an error.&#x27;
+      : &#x27;Click the last word the student read when the timer ended.&#x27;;
+  }
+
+  function showTime() {
+    document.getElementById(&#x27;timer&#x27;).textContent =
+      Math.floor(seconds / 60) + &#x27;:&#x27; + String(seconds % 60).padStart(2, &#x27;0&#x27;);
+  }
+
+  function toggleTimer() {
+    const btn = document.getElementById(&#x27;timerBtn&#x27;);
+    if (tick) {
+      clearInterval(tick); tick = null; btn.textContent = &#x27;Start timer&#x27;;
+      return;
+    }
+    if (seconds &gt;= 60) seconds = 0;
+    showTime();
+    btn.textContent = &#x27;Stop timer&#x27;;
+    tick = setInterval(() =&gt; {
+      seconds++;
+      showTime();
+      if (seconds &gt;= 60) {
+        clearInterval(tick); tick = null;
+        btn.textContent = &#x27;Start timer&#x27;;
+        setMode(&#x27;bracket&#x27;);
+        document.getElementById(&#x27;modeNote&#x27;).textContent =
+          &quot;Time! Click the last word the student read to place the bracket.&quot;;
+      }
+    }, 1000);
+  }
+
+  function resetAll() {
+    errors.clear(); bracket = null;
+    if (tick) { clearInterval(tick); tick = null; }
+    seconds = 0; showTime();
+    document.getElementById(&#x27;timerBtn&#x27;).textContent = &#x27;Start timer&#x27;;
+    setMode(&#x27;error&#x27;);
+    render();
+  }
+
+  function savePDF() {
+    html2pdf().set({
+      margin: 8,
+      filename: &#x27;ORF_Scoring_Practice.pdf&#x27;,
+      image: { type: &#x27;jpeg&#x27;, quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: &#x27;mm&#x27;, format: &#x27;letter&#x27;, orientation: &#x27;portrait&#x27; }
+    }).from(document.getElementById(&#x27;capture&#x27;)).save();
+  }
+
+  build();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe><iframe class="pane" id="pane4" title="Word Reading Fluency" sandbox="allow-scripts allow-downloads allow-modals allow-popups allow-forms" srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Practice Activity: Word Reading Fluency (WRF)&lt;/title&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js&quot;&gt;&lt;/script&gt;
+&lt;style&gt;
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 16px;
+    font-family: &#x27;Segoe UI&#x27;, Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa; color: #2c3e50; line-height: 1.6;
+  }
+  .container {
+    width: 100%; max-width: 900px; margin: 0 auto;
+    background: #fff; border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    padding: 28px; overflow-wrap: break-word;
+  }
+  .header { border-bottom: 4px solid #ffc629; padding-bottom: 14px; margin-bottom: 20px; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #7f8c8d; }
+  h1 { margin: 4px 0 6px; font-size: 26px; font-weight: 600; color: #000; }
+  .subtitle { margin: 0; color: #7f8c8d; font-size: 15px; }
+
+  .script {
+    background: #fffbf0; border-left: 4px solid #ffc629; border-radius: 6px;
+    padding: 16px 18px; margin-bottom: 22px; font-size: 14px; line-height: 1.7;
+  }
+  .script strong.label { display: block; color: #000; margin-bottom: 2px; }
+  .script .block + .block { margin-top: 12px; }
+
+  .step-title {
+    font-size: 18px; font-weight: 600; color: #000; margin: 0 0 6px;
+    border-bottom: 2px solid #ffc629; display: inline-block; padding-bottom: 4px;
+  }
+  .hint { font-size: 14px; color: #5f6b76; margin: 6px 0 14px; }
+
+  .timer {
+    font-family: &#x27;Courier New&#x27;, monospace; font-size: 40px; font-weight: 700;
+    letter-spacing: 3px; text-align: center; color: #000;
+    background: linear-gradient(135deg, #ffc629, #ffdc8a);
+    border-radius: 8px; padding: 12px; margin-bottom: 14px;
+  }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .tool, .btn {
+    font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+    padding: 9px 14px; border-radius: 6px; border: 2px solid #000;
+    background: #fff; color: #000; transition: background .15s;
+  }
+  .tool:hover, .btn:hover { background: #fff3cf; }
+  .tool.active { background: #000; color: #ffc629; }
+  .btn.dark { background: #000; color: #fff; }
+  .btn.dark:hover { background: #333; }
+  .btn.gold { background: #ffc629; border-color: #ffc629; }
+  .btn.gold:hover { background: #ffb800; }
+  .btn.gray { border-color: #b0b3b2; color: #555; }
+  .spacer { flex: 1; }
+
+  .mode-note {
+    font-size: 13px; font-weight: 600; color: #000;
+    background: #fffbf0; border-left: 4px solid #ffc629;
+    padding: 8px 12px; border-radius: 4px; margin-bottom: 12px;
+  }
+
+  /* Passage */
+  .passage-card {
+    border: 1px solid #ffe8a3; background: #fffdf6; border-radius: 8px;
+    padding: 22px 26px; margin-bottom: 18px;
+  }
+  .passage-title { text-align: center; font-weight: 700; font-size: 20px; margin: 0 0 14px; color: #000; }
+  .row { display: grid; grid-template-columns: repeat(5, 1fr) 44px; gap: 6px; align-items: center; margin-bottom: 6px; }
+  .row .count { font-size: 12px; color: #9aa1a6; text-align: right; font-family: &#x27;Segoe UI&#x27;, sans-serif; }
+  .word {
+    display: block; cursor: pointer; padding: 6px 4px; text-align: center;
+    font-family: Georgia, &#x27;Times New Roman&#x27;, serif; font-size: 20px; line-height: 1.3;
+    border-radius: 4px; position: relative; border: 1px solid transparent; min-width: 0; overflow-wrap: anywhere;
+  }
+  .word:hover { background: #ffe9a8; }
+  .word.error {
+    background-image: linear-gradient(to top right,
+      transparent calc(50% - 1.5px), #c0392b calc(50% - 1.5px),
+      #c0392b calc(50% + 1.5px), transparent calc(50% + 1.5px));
+    color: #7b1e14;
+  }
+  .word.bracket { background-color: #ffc629; font-weight: 700; }
+  .word.bracket::after { content: &#x27; ]&#x27;; font-weight: 700; }
+  .word.after-bracket { color: #a0a6ab; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+  .stat { background: #fffbf0; border-left: 4px solid #ffc629; border-radius: 6px; padding: 12px; text-align: center; }
+  .stat .lbl { font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; color: #7f8c8d; }
+  .stat .val { font-size: 28px; font-weight: 700; color: #000; }
+  .note { background: #f0f0f0; border-left: 4px solid #b0b3b2; border-radius: 4px; padding: 12px 14px; font-size: 14px; }
+
+  @media (max-width: 640px) {
+    .container { padding: 16px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .word { font-size: 15px; padding: 5px 1px; }
+    .row { grid-template-columns: repeat(5, 1fr) 30px; gap: 3px; }
+    .passage-card { padding: 16px; }
+    .timer { font-size: 32px; }
+    h1 { font-size: 22px; }
+  }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;container&quot; id=&quot;capture&quot;&gt;
+
+  &lt;div class=&quot;header&quot;&gt;
+    &lt;div class=&quot;eyebrow&quot;&gt;Practice Activity&lt;/div&gt;
+    &lt;h1&gt;Scoring Word Reading Fluency&lt;/h1&gt;
+    &lt;p class=&quot;subtitle&quot;&gt;DIBELS 8th Edition WRF Benchmark 2.Middle&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;script&quot;&gt;
+    &lt;div class=&quot;block&quot;&gt;
+      &lt;strong class=&quot;label&quot;&gt;Examiner script&lt;/strong&gt;
+      &quot;Please read from this list of words (point to the student form). Start here (point to the first word) and go across the page (point across the page). When I say &#x27;Begin&#x27;, point to each word and read it the best you can. If you get stuck, I will tell you the word, so you can keep reading. Put your finger on the first word. Ready? Begin.&quot;
+    &lt;/div&gt;
+    &lt;div class=&quot;block&quot;&gt;
+      &lt;strong class=&quot;label&quot;&gt;Reminders&lt;/strong&gt;
+      &lt;strong&gt;Start timer:&lt;/strong&gt; when the student says the first word.&lt;br&gt;
+      &lt;strong&gt;Prompts:&lt;/strong&gt; if the student hesitates, wait 3 seconds, give the correct word, point to the next word and say &quot;Keep going,&quot; and mark the missed word as incorrect.&lt;br&gt;
+      &lt;strong&gt;Discontinue:&lt;/strong&gt; if the student does not get any words correct within the first line (5 words), discontinue WRF.
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;h2 class=&quot;step-title&quot;&gt;Score the passage&lt;/h2&gt;
+  &lt;p class=&quot;hint&quot;&gt;As the student reads, click a word to slash it as an error. Use the bracket tool to mark the last word read when the timer ends. Self-corrections are not errors. The number at the end of each row is the running word count.&lt;/p&gt;
+
+  &lt;div class=&quot;timer&quot; id=&quot;timer&quot;&gt;0:00&lt;/div&gt;
+
+  &lt;div class=&quot;toolbar&quot; data-html2canvas-ignore=&quot;true&quot;&gt;
+    &lt;button class=&quot;tool active&quot; id=&quot;toolError&quot; onclick=&quot;setMode(&#x27;error&#x27;)&quot;&gt;/ Mark error&lt;/button&gt;
+    &lt;button class=&quot;tool&quot; id=&quot;toolBracket&quot; onclick=&quot;setMode(&#x27;bracket&#x27;)&quot;&gt;] Last word read&lt;/button&gt;
+    &lt;span class=&quot;spacer&quot;&gt;&lt;/span&gt;
+    &lt;button class=&quot;btn dark&quot; id=&quot;timerBtn&quot; onclick=&quot;toggleTimer()&quot;&gt;Start timer&lt;/button&gt;
+    &lt;button class=&quot;btn gray&quot; onclick=&quot;resetAll()&quot;&gt;&amp;#8634; Reset&lt;/button&gt;
+    &lt;button class=&quot;btn gold&quot; onclick=&quot;savePDF()&quot;&gt;Save to PDF&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mode-note&quot; id=&quot;modeNote&quot; data-html2canvas-ignore=&quot;true&quot;&gt;Click any word to slash it as an error.&lt;/div&gt;
+
+  &lt;div class=&quot;passage-card&quot;&gt;
+    &lt;div class=&quot;passage-title&quot;&gt;Word List&lt;/div&gt;
+    &lt;div class=&quot;passage&quot; id=&quot;passage&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;stats&quot;&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;lbl&quot;&gt;Total words read&lt;/div&gt;&lt;div class=&quot;val&quot; id=&quot;sRead&quot;&gt;&amp;mdash;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;lbl&quot;&gt;Total errors&lt;/div&gt;&lt;div class=&quot;val&quot; id=&quot;sErr&quot;&gt;0&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;lbl&quot;&gt;Words correct&lt;/div&gt;&lt;div class=&quot;val&quot; id=&quot;sCorrect&quot;&gt;&amp;mdash;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;lbl&quot;&gt;WCPM&lt;/div&gt;&lt;div class=&quot;val&quot; id=&quot;sCwpm&quot;&gt;&amp;mdash;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;note&quot;&gt;&lt;strong&gt;WCPM&lt;/strong&gt; (words correct per minute) = words read up to the bracket (]) &amp;minus; errors. Errors after the bracket are not counted.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  // 130 words, 5 per row
+  const rows = [
+    &quot;back look one make be&quot;,&quot;time own your very now&quot;,&quot;many think that can part&quot;,&quot;put said against my we&quot;,
+    &quot;send families tough person trade&quot;,&quot;check loose amount children amazing&quot;,&quot;plug winning team game captain&quot;,
+    &quot;easy evening table pound money&quot;,&quot;school neat ran ahead actor&quot;,&quot;switch glasses friendly yourself sea&quot;,
+    &quot;total mud fight body cold&quot;,&quot;turn inside hat meaning mouth&quot;,&quot;joke dry hurt worn ride&quot;,&quot;growth pick worth gave sit&quot;,
+    &quot;baker count repeat guest lake&quot;,&quot;coming force island running raise&quot;,&quot;ladies seen age bottom stay&quot;,
+    &quot;rock head truth run single&quot;,&quot;hot numbers youth enter trace&quot;,&quot;parties remember coffee anger flood&quot;,
+    &quot;pocket directions ear reader healthy&quot;,&quot;deck shopping lucky rough arrive&quot;,&quot;guide shoulder joy tube clothing&quot;,
+    &quot;uncle denied piano terrible spoke&quot;,&quot;throw finger prepare village taught&quot;,&quot;theater chief keys plane crown&quot;
+  ];
+
+  const errors = new Set();
+  let bracket = null;
+  let mode = &#x27;error&#x27;;
+  let seconds = 0, tick = null;
+
+  const passageEl = document.getElementById(&#x27;passage&#x27;);
+
+  function build() {
+    passageEl.innerHTML = &#x27;&#x27;;
+    let idx = 0;
+    rows.forEach(text =&gt; {
+      const row = document.createElement(&#x27;div&#x27;);
+      row.className = &#x27;row&#x27;;
+      text.split(&#x27; &#x27;).forEach(w =&gt; {
+        const cell = document.createElement(&#x27;div&#x27;);
+        cell.className = &#x27;word&#x27;;
+        cell.textContent = w;
+        cell.dataset.i = idx;
+        const myIdx = idx;
+        cell.addEventListener(&#x27;click&#x27;, () =&gt; onWord(myIdx));
+        row.appendChild(cell);
+        idx++;
+      });
+      const c = document.createElement(&#x27;div&#x27;);
+      c.className = &#x27;count&#x27;;
+      c.textContent = &#x27;(&#x27; + idx + &#x27;)&#x27;;
+      row.appendChild(c);
+      passageEl.appendChild(row);
+    });
+    render();
+  }
+
+  function onWord(i) {
+    if (mode === &#x27;bracket&#x27;) {
+      bracket = (bracket === i) ? null : i;
+    } else {
+      errors.has(i) ? errors.delete(i) : errors.add(i);
+    }
+    render();
+  }
+
+  function render() {
+    document.querySelectorAll(&#x27;.word&#x27;).forEach(el =&gt; {
+      const i = +el.dataset.i;
+      el.classList.toggle(&#x27;error&#x27;, errors.has(i));
+      el.classList.toggle(&#x27;bracket&#x27;, bracket === i);
+      el.classList.toggle(&#x27;after-bracket&#x27;, bracket !== null &amp;&amp; i &gt; bracket);
+    });
+    let errCount = 0;
+    errors.forEach(i =&gt; { if (bracket === null || i &lt;= bracket) errCount++; });
+    const read = bracket !== null ? bracket + 1 : null;
+    document.getElementById(&#x27;sErr&#x27;).textContent = errCount;
+    document.getElementById(&#x27;sRead&#x27;).textContent = read ?? &#x27;\u2014&#x27;;
+    document.getElementById(&#x27;sCorrect&#x27;).textContent = read !== null ? read - errCount : &#x27;\u2014&#x27;;
+    document.getElementById(&#x27;sCwpm&#x27;).textContent = read !== null ? read - errCount : &#x27;\u2014&#x27;;
+  }
+
+  function setMode(m) {
+    mode = m;
+    document.getElementById(&#x27;toolError&#x27;).classList.toggle(&#x27;active&#x27;, m === &#x27;error&#x27;);
+    document.getElementById(&#x27;toolBracket&#x27;).classList.toggle(&#x27;active&#x27;, m === &#x27;bracket&#x27;);
+    document.getElementById(&#x27;modeNote&#x27;).textContent = m === &#x27;error&#x27;
+      ? &#x27;Click any word to slash it as an error.&#x27;
+      : &#x27;Click the last word the student read when the timer ended.&#x27;;
+  }
+
+  function showTime() {
+    document.getElementById(&#x27;timer&#x27;).textContent =
+      Math.floor(seconds / 60) + &#x27;:&#x27; + String(seconds % 60).padStart(2, &#x27;0&#x27;);
+  }
+
+  function toggleTimer() {
+    const btn = document.getElementById(&#x27;timerBtn&#x27;);
+    if (tick) {
+      clearInterval(tick); tick = null; btn.textContent = &#x27;Start timer&#x27;;
+      return;
+    }
+    if (seconds &gt;= 60) seconds = 0;
+    showTime();
+    btn.textContent = &#x27;Stop timer&#x27;;
+    tick = setInterval(() =&gt; {
+      seconds++;
+      showTime();
+      if (seconds &gt;= 60) {
+        clearInterval(tick); tick = null;
+        btn.textContent = &#x27;Start timer&#x27;;
+        setMode(&#x27;bracket&#x27;);
+        document.getElementById(&#x27;modeNote&#x27;).textContent =
+          &quot;Time! Click the last word the student read to place the bracket.&quot;;
+      }
+    }, 1000);
+  }
+
+  function resetAll() {
+    errors.clear(); bracket = null;
+    if (tick) { clearInterval(tick); tick = null; }
+    seconds = 0; showTime();
+    document.getElementById(&#x27;timerBtn&#x27;).textContent = &#x27;Start timer&#x27;;
+    setMode(&#x27;error&#x27;);
+    render();
+  }
+
+  function savePDF() {
+    html2pdf().set({
+      margin: 8,
+      filename: &#x27;WRF_Scoring_Practice.pdf&#x27;,
+      image: { type: &#x27;jpeg&#x27;, quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: &#x27;mm&#x27;, format: &#x27;letter&#x27;, orientation: &#x27;portrait&#x27; }
+    }).from(document.getElementById(&#x27;capture&#x27;)).save();
+  }
+
+  build();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+<script>
+  document.querySelectorAll('.tab').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var i = btn.getAttribute('data-idx');
+      document.querySelectorAll('.tab').forEach(function(b) { b.classList.toggle('active', b === btn); });
+      document.querySelectorAll('.pane').forEach(function(p) { p.classList.toggle('active', p.id === 'pane' + i); });
+    });
+  });
+</script>
+</body></html>
